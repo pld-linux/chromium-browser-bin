@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Chromium
+Exec=chromium-browser %U
+Icon=chromium-browser
+Type=Application
+Terminal=false
+Categories=Application;Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml_xml;
