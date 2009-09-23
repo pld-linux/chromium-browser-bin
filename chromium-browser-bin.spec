@@ -1,5 +1,5 @@
 %define		svnver  26800
-%define		rel		0.8
+%define		rel		0.9
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
 Version:	4.0.212.0
@@ -12,6 +12,7 @@ NoSource:	0
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
+BuildRequires:	rpmbuild(macros) >= 1.453
 Requires:	browser-plugins >= 2.0
 Requires:	nspr
 Requires:	nss
@@ -48,7 +49,7 @@ chmod a+x chrome-linux/lib*.so*
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{_mandir}/man1,%{_pixmapsdir},%{_desktopdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_pixmapsdir},%{_desktopdir}}
 
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/chromium-browser
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/chromium-browser
@@ -56,6 +57,8 @@ cp -a chrome-linux/* $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -a chromium-browser.1 $RPM_BUILD_ROOT%{_mandir}/man1
 cp -a product_logo_48.png $RPM_BUILD_ROOT%{_pixmapsdir}/chromium-browser.png
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
+
+%browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
 # nspr symlinks
 for a in libnspr4.so libplc4.so libplds4.so; do
@@ -72,8 +75,20 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%update_browser_plugins
+
+%postun
+if [ "$1" = 0 ]; then
+	%update_browser_plugins
+fi
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
+
+%{_browserpluginsconfdir}/browsers.d/%{name}.*
+%config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
+
 %attr(755,root,root) %{_bindir}/chromium-browser
 %{_mandir}/man1/chromium-browser.1*
 %{_pixmapsdir}/chromium-browser.png
@@ -81,6 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/chrome.pak
 %dir %{_libdir}/%{name}/locales
+%dir %{_libdir}/%{name}/plugins
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chromium-browser
@@ -89,18 +105,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(4555,root,root) %{_libdir}/%{name}/chrome_sandbox
 
 # ffmpeg libs
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libavcodec.so.52
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libavformat.so.52
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libavutil.so.50
+%attr(755,root,root) %{_libdir}/%{name}/libavcodec.so.52
+%attr(755,root,root) %{_libdir}/%{name}/libavformat.so.52
+%attr(755,root,root) %{_libdir}/%{name}/libavutil.so.50
 
 # nspr/nss symlinks
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libnspr4.so.0d
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libplc4.so.0d
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libplds4.so.0d
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libnss3.so.1d
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libnssutil3.so.1d
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libsmime3.so.1d
-%attr(755,root,root) %{_libdir}/chromium-browser-bin/libssl3.so.1d
+%attr(755,root,root) %{_libdir}/%{name}/libnspr4.so.0d
+%attr(755,root,root) %{_libdir}/%{name}/libplc4.so.0d
+%attr(755,root,root) %{_libdir}/%{name}/libplds4.so.0d
+%attr(755,root,root) %{_libdir}/%{name}/libnss3.so.1d
+%attr(755,root,root) %{_libdir}/%{name}/libnssutil3.so.1d
+%attr(755,root,root) %{_libdir}/%{name}/libsmime3.so.1d
+%attr(755,root,root) %{_libdir}/%{name}/libssl3.so.1d
 
-# bundle a this copy until xdg-utils will have this itself
+# bundle this copy until xdg-utils will have this itself
 %attr(755,root,root) %{_libdir}/%{name}/xdg-settings
