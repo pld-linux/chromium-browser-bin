@@ -1,5 +1,5 @@
 %define		svnver  26865
-%define		rel		0.1
+%define		rel		0.2
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
 Version:	4.0.212.0
@@ -19,8 +19,16 @@ Provides:	wwwbrowser
 ExclusiveArch:	%{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_enable_debug_packages	0
 %define		find_lang 	sh find-lang.sh %{buildroot}
+
+%define		_enable_debug_packages	0
+
+%define		nss_caps	libfreebl3.so libnss3.so libnssckbi.so libsmime3.so ibsoftokn3.so libssl3.so libnssutil3.so
+%define		nspr_caps	libnspr4.so libplc4.so libplds4.so
+
+# list of script capabilities (regexps) not to be used in Provides
+%define		_noautoprov		%{nss_caps} %{nspr_caps}
+%define		_noautoreq		%{_noautoprov}
 
 %description
 Chromium is an open-source web browser, powered by WebKit.
