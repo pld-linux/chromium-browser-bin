@@ -1,13 +1,13 @@
-%define		svnver  26865
-%define		rel		0.2
+%define		svnver  26908
+%define		rel		0.6
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	4.0.212.0
+Version:	4.0.213.0
 Release:	0.%{svnver}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 Source0:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/%{svnver}/chrome-linux.zip
-# NoSource0-md5:	e071fd30aa2de0eec10bcf5e16ca917b
+# NoSource0-md5:	1982ad180b913ac1733ce0ba87ff8dff
 NoSource:	0
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
@@ -22,6 +22,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		find_lang 	sh find-lang.sh %{buildroot}
 
 %define		_enable_debug_packages	0
+%define		no_install_post_strip	1
 
 %define		nss_caps	libfreebl3.so libnss3.so libnssckbi.so libsmime3.so ibsoftokn3.so libssl3.so libnssutil3.so
 %define		nspr_caps	libnspr4.so libplc4.so libplds4.so
