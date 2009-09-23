@@ -7,4 +7,4 @@ Icon=chromium-browser
 Type=Application
 Terminal=false
 Categories=GTK;Network;WebBrowser;
-MimeType=text/html;text/xml;application/xhtml_xml;
+MimeType=text/html;text/xml;application/xhtml+xml;
