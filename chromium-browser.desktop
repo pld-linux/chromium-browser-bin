@@ -1,8 +1,10 @@
 [Desktop Entry]
 Name=Chromium
+GenericName=Web Browser
+Comment=Browse the Web powered by Google Chrome
 Exec=chromium-browser %U
 Icon=chromium-browser
 Type=Application
 Terminal=false
-Categories=Application;Network;WebBrowser;
+Categories=GTK;Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;
