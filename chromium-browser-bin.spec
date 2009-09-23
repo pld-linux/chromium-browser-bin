@@ -15,6 +15,7 @@ Source4:	find-lang.sh
 Requires:	browser-plugins >= 2.0
 Requires:	nspr
 Requires:	nss
+Requires:	xdg-utils
 Provides:	wwwbrowser
 ExclusiveArch:	%{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -40,7 +41,6 @@ Chromium is an open-source web browser, powered by WebKit.
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
 
 mv chrome-linux/product_logo_48.png .
-mv chrome-linux/xdg-settings .
 mv chrome-linux/chromium-browser.1 .
 mv chrome-linux/chrome-wrapper .
 mv chrome-linux/{chrome,chromium-browser}
@@ -84,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chromium-browser
+
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome_sandbox
 
@@ -100,3 +101,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/chromium-browser-bin/libnssutil3.so.1d
 %attr(755,root,root) %{_libdir}/chromium-browser-bin/libsmime3.so.1d
 %attr(755,root,root) %{_libdir}/chromium-browser-bin/libssl3.so.1d
+
+# bundle a this copy until xdg-utils will have this itself
+%attr(755,root,root) %{_libdir}/%{name}/xdg-settings
