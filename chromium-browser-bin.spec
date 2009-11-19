@@ -1,3 +1,5 @@
+# NOTE:
+# - sources are arch conditional as the filenames are same for both arch
 %define		svnver  32507
 %define		rel		0.1
 Summary:	A WebKit powered web browser
@@ -6,9 +8,16 @@ Version:	4.0.253.0
 Release:	0.%{svnver}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
-Source0:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/%{svnver}/chrome-linux.zip
-# NoSource0-md5:	bc8f6ac27ca2eb92ecb34703b205217c
+%ifarch %{ix86}
+Source0:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/%{svnver}/chrome-linux.zip
+# NoSource0-md5:	c4a8c8fe7743b6718b7aff1e8a6a6e00
 NoSource:	0
+%endif
+%ifarch %{x8664}
+Source1:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/%{svnver}/chrome-linux.zip
+# NoSource1-md5:	bc8f6ac27ca2eb92ecb34703b205217c
+NoSource:	1
+%endif
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
@@ -19,7 +28,7 @@ Requires:	nspr
 Requires:	nss
 Requires:	xdg-utils
 Provides:	wwwbrowser
-ExclusiveArch:	%{x8664}
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		find_lang 	sh find-lang.sh %{buildroot}
@@ -39,7 +48,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Chromium is an open-source web browser, powered by WebKit.
 
 %prep
-%setup -qc
+%ifarch %{ix86}
+%setup -qcT -a0
+%endif
+%ifarch %{x8664}
+%setup -qcT -a1
+%endif
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
 
 mv chrome-linux/product_logo_48.png .
