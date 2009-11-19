@@ -1,13 +1,13 @@
-%define		svnver  26800
-%define		rel		0.9
+%define		svnver  32507
+%define		rel		0.1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	4.0.212.0
+Version:	4.0.253.0
 Release:	0.%{svnver}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 Source0:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/%{svnver}/chrome-linux.zip
-# NoSource0-md5:	866a123552aebd81d35e5282a4aa5a80
+# NoSource0-md5:	bc8f6ac27ca2eb92ecb34703b205217c
 NoSource:	0
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
@@ -98,16 +98,17 @@ fi
 %dir %{_libdir}/%{name}/locales
 %dir %{_libdir}/%{name}/plugins
 %{_libdir}/%{name}/resources
-%{_libdir}/%{name}/themes
+#%{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chromium-browser
 
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome_sandbox
 
 # ffmpeg libs
-%attr(755,root,root) %{_libdir}/%{name}/libavcodec.so.52
-%attr(755,root,root) %{_libdir}/%{name}/libavformat.so.52
-%attr(755,root,root) %{_libdir}/%{name}/libavutil.so.50
+%attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
+#%attr(755,root,root) %{_libdir}/%{name}/libavcodec.so.52
+#%attr(755,root,root) %{_libdir}/%{name}/libavformat.so.52
+#%attr(755,root,root) %{_libdir}/%{name}/libavutil.so.50
 
 # nspr/nss symlinks
 %attr(755,root,root) %{_libdir}/%{name}/libnspr4.so.0d
