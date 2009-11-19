@@ -13,6 +13,7 @@ Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
 BuildRequires:	rpmbuild(macros) >= 1.453
+BuildRequires:	unzip
 Requires:	browser-plugins >= 2.0
 Requires:	nspr
 Requires:	nss
