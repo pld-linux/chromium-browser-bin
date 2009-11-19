@@ -50,7 +50,7 @@ chmod a+x chrome-linux/lib*.so*
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_pixmapsdir},%{_desktopdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_pixmapsdir},%{_desktopdir},%{_libdir}/%{name}/themes}
 
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/chromium-browser
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/chromium-browser
@@ -99,7 +99,7 @@ fi
 %dir %{_libdir}/%{name}/locales
 %dir %{_libdir}/%{name}/plugins
 %{_libdir}/%{name}/resources
-#%{_libdir}/%{name}/themes
+%{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chromium-browser
 
 # These unique permissions are intentional and necessary for the sandboxing
@@ -107,9 +107,6 @@ fi
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
-#%attr(755,root,root) %{_libdir}/%{name}/libavcodec.so.52
-#%attr(755,root,root) %{_libdir}/%{name}/libavformat.so.52
-#%attr(755,root,root) %{_libdir}/%{name}/libavutil.so.50
 
 # nspr/nss symlinks
 %attr(755,root,root) %{_libdir}/%{name}/libnspr4.so.0d
