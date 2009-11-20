@@ -9,12 +9,12 @@ License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 %ifarch %{ix86}
 Source0:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/%{svnver}/chrome-linux.zip
-# NoSource0-md5:    7b5c41e3a558857cfc07ff8084a57d68	
+# Source0-md5:    7b5c41e3a558857cfc07ff8084a57d68	
 NoSource:	0
 %endif
 %ifarch %{x8664}
 Source1:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/%{svnver}/chrome-linux.zip
-# NoSource1-md5:	a5172b62106850b7e3c417a61fe6f0de
+# Source1-md5:	a5172b62106850b7e3c417a61fe6f0de
 NoSource:	1
 %endif
 Source2:	chromium-browser.sh
