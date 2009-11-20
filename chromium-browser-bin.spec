@@ -1,24 +1,20 @@
-# NOTE:
-# - sources are arch conditional as the filenames are same for both arch
-%define		svnver  32603
+%define		svnrev	32603
+%define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
 Version:	4.0.254.0
-Release:	0.%{svnver}.1
+Release:	0.%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
-# sh get_source.sh
-#Source0:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/%{svnver}/chrome-linux.zip
-Source0:    chrome-linux32.zip
-# Source0-md5:	7b5c41e3a558857cfc07ff8084a57d68
 # sh get_sources.sh
-#Source1:	http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/%{svnver}/chrome-linux.zip
-Source1:    chrome-linux64.zip
+Source0:	chrome-linux32-r%{svnrev}.zip
+# Source0-md5:	7b5c41e3a558857cfc07ff8084a57d68
+Source1:	chrome-linux64-r%{svnrev}.zip
 # Source1-md5:	a5172b62106850b7e3c417a61fe6f0de
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
-Source5:    get_sources.sh
+Source5:	get_sources.sh
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	unzip
 Requires:	browser-plugins >= 2.0
