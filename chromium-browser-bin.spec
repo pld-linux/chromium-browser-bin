@@ -38,7 +38,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		nss_caps	libfreebl3.so libnss3.so libnssckbi.so libsmime3.so ibsoftokn3.so libssl3.so libnssutil3.so
 %define		nspr_caps	libnspr4.so libplc4.so libplds4.so
-%define		ffmpeg_caps	libavcodec.so libavformat.so libavutil.so
+%define		ffmpeg_caps	libffmpegsumo.so
 
 # list of script capabilities (regexps) not to be used in Provides
 %define		_noautoprov		%{nss_caps} %{nspr_caps} %{ffmpeg_caps}
