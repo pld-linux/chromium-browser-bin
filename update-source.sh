@@ -10,7 +10,7 @@ then
   echo "Fetching revision $rev"
 
   wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/$rev/chrome-linux.zip -c -O chrome-linux32.zip
-  wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/$rev/chrome-linux.zip -c -O chrome-linux-64.zip
+  wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/$rev/chrome-linux.zip -c -O chrome-linux64.zip
 
 #  echo -n "Update revision in spec? (yes, [N]o)? "
 #  read ans
