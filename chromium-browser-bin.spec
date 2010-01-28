@@ -45,6 +45,36 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Chromium is an open-source web browser, powered by WebKit.
 
+%package inspector
+Summary:	Page inspector for the chromium-browser
+Group:		Development/Tools
+Requires:	%{name} = %{version}-%{release}
+
+%description inspector
+Chromium is an open-source browser project that aims to build a safer,
+faster, and more stable way for all Internet users to experience the
+web.
+
+This package contains 'inspector', allowing web developpers to inspect
+any element of a web page at runtime (html, javascript, css, ..)
+
+%package l10n
+Summary:	chromium-browser language packages
+Group:		I18n
+Requires:	%{name} = %{version}-%{release}
+
+%description l10n
+Chromium is an open-source browser project that aims to build a safer,
+faster, and more stable way for all Internet users to experience the
+web.
+
+This package contains language packages for 50 languages:
+
+ar, bg, bn, ca, cs, da, de, el, en-GB, es-419, es, et, fi, fil, fr,
+gu, he, hi, hr, hu, id, it, ja, kn, ko, lt, lv, ml, mr, nb, nl, or,
+pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, ta, te, th, tr, uk, vi,
+zh-CN, zh-TW
+
 %prep
 %ifarch %{ix86}
 %setup -qcT -a0
@@ -84,6 +114,7 @@ done
 
 # find locales
 %find_lang %{name}.lang
+%{__sed} -i -e '/en-US.pak/d' %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -96,7 +127,7 @@ if [ "$1" = 0 ]; then
 	%update_browser_plugins
 fi
 
-%files -f %{name}.lang
+%files
 %defattr(644,root,root,755)
 
 %{_browserpluginsconfdir}/browsers.d/%{name}.*
@@ -109,8 +140,9 @@ fi
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/chrome.pak
 %dir %{_libdir}/%{name}/locales
+%{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
-%{_libdir}/%{name}/resources
+%dir %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chromium-browser
 
@@ -131,3 +163,10 @@ fi
 
 # bundle this copy until xdg-utils will have this itself
 %attr(755,root,root) %{_libdir}/%{name}/xdg-settings
+
+%files inspector
+%defattr(644,root,root,755)
+%{_libdir}/%{name}/resources/inspector
+
+%files l10n -f %{name}.lang
+%defattr(644,root,root,755)
