@@ -10,9 +10,9 @@ Release:	0.%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
-Source0:	chrome-linux32-r%{svnrev}.zip
+Source0:	chromium-browser-linux32-r%{svnrev}.zip
 # Source0-md5:	f317bb99a9ffd4d966ec127227ad9da0
-Source1:	chrome-linux64-r%{svnrev}.zip
+Source1:	chromium-browser-linux64-r%{svnrev}.zip
 # Source1-md5:	110eee27e72ca43cf1199016dc241322
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
