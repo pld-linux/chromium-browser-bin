@@ -9,10 +9,22 @@ else
 	echo "$rev"
 fi
 
-wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/$rev/chrome-linux.zip -c -O chrome-linux32-r$rev.zip
-wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/$rev/chrome-linux.zip -c -O chrome-linux64-r$rev.zip
+if [ ! -f chrome-linux32-r$rev.zip ]; then
+	wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/$rev/chrome-linux.zip -c -O chrome-linux32-r$rev.zip
+	upload_32="chrome-linux32-r$rev.zip"
+fi
+if [ ! -f chrome-linux64-r$rev.zip ]; then
+	wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/$rev/chrome-linux.zip -c -O chrome-linux64-r$rev.zip
+	upload_64="chrome-linux64-r$rev.zip"
+fi
 
-if [ -x dropin ]; then
+if [ -x ./dropin ]; then
+	dropin=./dropin
+elif [ -x ../dropin ]; then
+	dropin=../dropin
+fi
+
+if [ "$dropin" ] && [ "$upload_32" -o "$upload_64" ]; then
 	echo "Uploading to dropin. ^C to abort"
-	./dropin chrome-linux32-r$rev.zip chrome-linux64-r$rev.zip
+	$dropin $upload_32 $upload_64
 fi
