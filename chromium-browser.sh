@@ -23,4 +23,7 @@ if [ -z "$m" ]; then
 	EOF
 fi
 
+# Set CHROME_VERSION_EXTRA visible in the About dialog and in about:version
+export CHROME_VERSION_EXTRA="PLD Linux"
+
 exec @libdir@/chromium-browser "$@"
