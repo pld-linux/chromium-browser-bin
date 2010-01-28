@@ -1,16 +1,19 @@
-%define		svnrev	32603
+# TODO
+# - find a way to check for version without having actually to run the browser
+#   with a $DISPLAY via about box
+%define		svnrev	37391
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	4.0.254.0
+Version:	5.0.308.0
 Release:	0.%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chrome-linux32-r%{svnrev}.zip
-# Source0-md5:	7b5c41e3a558857cfc07ff8084a57d68
+# Source0-md5:	f317bb99a9ffd4d966ec127227ad9da0
 Source1:	chrome-linux64-r%{svnrev}.zip
-# Source1-md5:	a5172b62106850b7e3c417a61fe6f0de
+# Source1-md5:	110eee27e72ca43cf1199016dc241322
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
@@ -35,8 +38,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		ffmpeg_caps	libffmpegsumo.so
 
 # list of script capabilities (regexps) not to be used in Provides
-%define		_noautoprov		%{nss_caps} %{nspr_caps} %{ffmpeg_caps}
-%define		_noautoreq		%{_noautoprov}
+%define		_noautoprov	%{nss_caps} %{nspr_caps} %{ffmpeg_caps}
+# needs cvs version of libpng, ignore for now
+%define		_noautoreq	%{_noautoprov} libpng12.so.0(PNG12_0)
 
 %description
 Chromium is an open-source web browser, powered by WebKit.
@@ -51,7 +55,7 @@ Chromium is an open-source web browser, powered by WebKit.
 %{__sed} -e 's,@localedir@,%{_libdir}/%{name},' %{SOURCE4} > find-lang.sh
 
 mv chrome-linux/product_logo_48.png .
-mv chrome-linux/chromium-browser.1 .
+mv chrome-linux/chrome.1 chromium-browser.1
 mv chrome-linux/chrome-wrapper .
 mv chrome-linux/{chrome,chromium-browser}
 chmod a+x chrome-linux/lib*.so*
