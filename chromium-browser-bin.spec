@@ -1,19 +1,19 @@
 # TODO
 # - find a way to check for version without having actually to run the browser
 #   with a $DISPLAY via about box
-%define		svnrev	37619
-%define		rel		1
+%define		svnrev	37688
+%define		rel		0.1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	5.0.310.0
+Version:	5.0.312.0
 Release:	0.%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# Source0-md5:	df8831afb8fd09b13545745beee2a911
+# Source0-md5:	12ae79e7362b209984440c48d7f875db
 Source1:	chromium-browser64-r%{svnrev}.zip
-# Source1-md5:	57f64b892a61b39819ed38adbdf94247
+# Source1-md5:	d7519f6da0439512cea3a3d90a2c46bc
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
