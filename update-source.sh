@@ -24,9 +24,15 @@ elif [ -x ../dropin ]; then
 	dropin=../dropin
 fi
 
-if [ "$dropin" ] && [ "$upload_32" -o "$upload_64" ]; then
+if [ "$upload_32" -o "$upload_64" ]; then
 	echo "Uploading to dropin. ^C to abort"
-	$dropin $upload_32 $upload_64
+	../dropin $upload_32 $upload_64
 fi
 
-sed -i -e "s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/" chromium-browser-bin.spec
+specfile=chromium-browser-bin.spec
+oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
+if [ "$oldrev" != "$rev" ]; then
+	echo "Updating $specfile for $rev"
+	sed -i -e "s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/" $specfile
+	../builder -ncs -5 $specfile
+fi
