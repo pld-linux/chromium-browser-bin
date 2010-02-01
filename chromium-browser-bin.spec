@@ -1,19 +1,19 @@
 # TODO
 # - find a way to check for version without having actually to run the browser
 #   with a $DISPLAY via about box
-%define		svnrev	37391
+%define		svnrev	37619
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	5.0.308.0
+Version:	5.0.310.0
 Release:	0.%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# Source0-md5:	f317bb99a9ffd4d966ec127227ad9da0
+# Source0-md5:	df8831afb8fd09b13545745beee2a911
 Source1:	chromium-browser64-r%{svnrev}.zip
-# Source1-md5:	110eee27e72ca43cf1199016dc241322
+# Source1-md5:	57f64b892a61b39819ed38adbdf94247
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
@@ -21,6 +21,7 @@ Source5:	get_sources.sh
 BuildRequires:	rpmbuild(macros) >= 1.453
 BuildRequires:	unzip
 Requires:	browser-plugins >= 2.0
+Requires:	libpng12 >= 1:1.2.42-2
 Requires:	nspr
 Requires:	nss
 Requires:	xdg-utils
@@ -39,8 +40,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # list of script capabilities (regexps) not to be used in Provides
 %define		_noautoprov	%{nss_caps} %{nspr_caps} %{ffmpeg_caps}
-# needs cvs version of libpng, ignore for now
-%define		_noautoreq	%{_noautoprov} libpng12.so.0(PNG12_0)
+%define		_noautoreq	%{_noautoprov}
 
 %description
 Chromium is an open-source web browser, powered by WebKit.
