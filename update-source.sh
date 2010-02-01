@@ -28,3 +28,5 @@ if [ "$dropin" ] && [ "$upload_32" -o "$upload_64" ]; then
 	echo "Uploading to dropin. ^C to abort"
 	$dropin $upload_32 $upload_64
 fi
+
+sed -i -e "s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/" chromium-browser-bin.spec
