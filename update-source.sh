@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+dropin=0
 
 if [ "$1" ]; then
 	rev=$1
@@ -19,15 +20,17 @@ if [ ! -f chromium-browser64-r$rev.zip ]; then
 	upload_64="chromium-browser64-r$rev.zip"
 fi
 
-if [ -x ./dropin ]; then
-	dropin=./dropin
-elif [ -x ../dropin ]; then
-	dropin=../dropin
-fi
+if [ "$dropin" ]; then
+	if [ -x ./dropin ]; then
+		dropin=./dropin
+	elif [ -x ../dropin ]; then
+		dropin=../dropin
+	fi
 
-if [ "$upload_32" -o "$upload_64" ]; then
-	echo "Uploading to dropin. ^C to abort"
-	../dropin $upload_32 $upload_64
+	if [ "$upload_32" -o "$upload_64" ]; then
+		echo "Uploading to dropin. ^C to abort"
+		../dropin $upload_32 $upload_64
+	fi
 fi
 
 specfile=chromium-browser-bin.spec
