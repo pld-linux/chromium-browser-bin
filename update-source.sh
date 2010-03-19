@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 if [ "$1" ]; then
 	rev=$1
@@ -32,7 +33,19 @@ fi
 specfile=chromium-browser-bin.spec
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 if [ "$oldrev" != "$rev" ]; then
-	echo "Updating $specfile for $rev"
-	sed -i -e "s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/" $specfile
+	# revno => VERSION hint by Caleb Maclennan <caleb#alerque.com>
+	wget -q -O VERSION.sh http://src.chromium.org/viewvc/chrome/trunk/src/chrome/VERSION?revision=$rev
+	if grep -Ev '^(MAJOR|MINOR|BUILD|PATCH)=[0-9]+$' VERSION.sh >&2; then
+		echo >&2 "I refuse to execute grabbed file for security concerns"
+		exit 1
+	fi
+	. ./VERSION.sh
+	version=$MAJOR.$MINOR.$BUILD.$PATCH
+
+	echo "Updating $specfile for $version r$rev"
+	sed -i -e "
+		s/^\(%define[ \t]\+svnrev[ \t]\+\)[0-9]\+\$/\1$rev/
+		s/^\(Version:[ \t]\+\)[.0-9]\+\$/\1$version/
+	" $specfile
 	../builder -ncs -5 $specfile
 fi

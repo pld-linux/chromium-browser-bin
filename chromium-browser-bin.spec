@@ -1,19 +1,18 @@
-# TODO
-# - find a way to check for version without having actually to run the browser
-#   with a $DISPLAY via about box
-%define		svnrev	37688
-%define		rel		0.1
+%define		svnrev	42096
+%define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	5.0.312.0
-Release:	0.%{svnrev}.%{rel}
+Version:	5.0.359.0
+Release:	%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# Source0-md5:	12ae79e7362b209984440c48d7f875db
+# NoSource0-md5:	c3aee19e7e33664894563f84e9d8f5c4
 Source1:	chromium-browser64-r%{svnrev}.zip
-# Source1-md5:	d7519f6da0439512cea3a3d90a2c46bc
+# NoSource1-md5:	8612af021929073cc0bed0b20a5fe39a
+NoSource:	0
+NoSource:	1
 Source2:	chromium-browser.sh
 Source3:	chromium-browser.desktop
 Source4:	find-lang.sh
@@ -57,6 +56,18 @@ web.
 
 This package contains 'inspector', allowing web developpers to inspect
 any element of a web page at runtime (html, javascript, css, ..)
+
+%package bookmark_manager
+Summary:	Bookmark manager for the chromium-browser
+Group:		Development/Tools
+Requires:	%{name} = %{version}-%{release}
+
+%description bookmark_manager
+Chromium is an open-source browser project that aims to build a safer,
+faster, and more stable way for all Internet users to experience the
+web.
+
+This package contains bookmark manager for the chromium-browser.
 
 %package l10n
 Summary:	chromium-browser language packages
@@ -167,6 +178,10 @@ fi
 %files inspector
 %defattr(644,root,root,755)
 %{_libdir}/%{name}/resources/inspector
+
+%files bookmark_manager
+%defattr(644,root,root,755)
+%{_libdir}/%{name}/resources/bookmark_manager
 
 %files l10n -f %{name}.lang
 %defattr(644,root,root,755)
