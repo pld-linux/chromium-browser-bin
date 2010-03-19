@@ -1,0 +1,4 @@
+- auto version update by hint from Caleb Maclennan <caleb#alerque.com>
+- up to 5.0.359.0, r42096
+- packaged bookmark_manager
+- nosource again not to trash distfiles, as we have own built package now (chromium-browser.spec)
