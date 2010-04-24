@@ -1,16 +1,16 @@
-%define		svnrev	43829
+%define		svnrev	45531
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	5.0.371.0
+Version:	5.0.387.0
 Release:	%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# NoSource0-md5:	6fd3a056234c0a883012de4b62879e42
+# NoSource0-md5:	9e07f41b3135446bf5f18c453f12f09a
 Source1:	chromium-browser64-r%{svnrev}.zip
-# NoSource1-md5:	e8d1e7cc6b774c2d6bccea7405b7f656
+# NoSource1-md5:	17cec747e0f08cbf8b2a56390b20c3fe
 NoSource:	0
 NoSource:	1
 Source2:	chromium-browser.sh
@@ -155,6 +155,7 @@ fi
 %dir %{_libdir}/%{name}/plugins
 %dir %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/resources/net_internals
+%{_libdir}/%{name}/resources/*_app
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chromium-browser
 

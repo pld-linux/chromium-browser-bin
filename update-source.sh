@@ -7,8 +7,15 @@ if [ "$1" ]; then
 	echo "Using $rev..."
 else
 	echo -n "Fetching latest revno... "
-	rev=$(wget -q -O - http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/LATEST)
+	rev=$(wget -q -O - http://build.chromium.org/buildbot/continuous/linux/LATEST/REVISION)
+	rev64=$(wget -q -O - http://build.chromium.org/buildbot/continuous/linux64/LATEST/REVISION)
+	if [ "$rev" != "$rev64" ] && [ $(uname -m) -eq "x86_64" ]; then
+		echo -n >&2 "Current 32bit build ($rev) does not match 64bit build ($rev64). The upstream buildbot probably failed. Usuing latest 64bit revision..."
+		rev=$rev64
+	fi
 	echo "$rev"
+	# TODO: use release branches instead of trunk. Current release can be looked up like this:
+	#linuxdev=$(wget -q -O - http://omahaproxy.appspot.com | grep '^linux,dev' | cut -d, -f3)
 fi
 
 if [ ! -f chromium-browser32-r$rev.zip ]; then
