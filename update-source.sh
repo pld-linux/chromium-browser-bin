@@ -1,17 +1,25 @@
 #!/bin/sh
 set -e
-dropin=0
+dropin=
 
 if [ "$1" ]; then
 	rev=$1
 	echo "Using $rev..."
 else
-	echo -n "Fetching latest revno... "
+	echo "Fetching latest revno... "
 	rev=$(wget -q -O - http://build.chromium.org/buildbot/continuous/linux/LATEST/REVISION)
 	rev64=$(wget -q -O - http://build.chromium.org/buildbot/continuous/linux64/LATEST/REVISION)
-	if [ "$rev" != "$rev64" ] && [ $(uname -m) -eq "x86_64" ]; then
-		echo -n >&2 "Current 32bit build ($rev) does not match 64bit build ($rev64). The upstream buildbot probably failed. Usuing latest 64bit revision..."
-		rev=$rev64
+	# be sure that we use same rev on both arch
+	if [ "$rev" != "$rev64" ]; then
+		echo "Current 32bit build ($rev) does not match 64bit build ($rev64)"
+		echo "The upstream buildbot probably failed."
+		if [ "$rev" -lt "$rev64" ]; then
+			echo "Using latest 32bit revision..."
+			rev64=$rev
+		else
+			echo "Using latest 64bit revision..."
+			rev=$rev64
+		fi
 	fi
 	echo "$rev"
 	# TODO: use release branches instead of trunk. Current release can be looked up like this:
