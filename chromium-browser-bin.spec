@@ -1,18 +1,18 @@
 # NOTES:
 # - to look for new tarball, use update-source.sh script
-%define		svnrev	48132
+%define		svnrev	50836
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	6.0.415.0
+Version:	6.0.450.0
 Release:	%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# NoSource0-md5:	7951d686302d3fd2471922dd4ac04556
+# NoSource0-md5:	c311415ce02bfa9d59be7a17f9e552c2
 Source1:	chromium-browser64-r%{svnrev}.zip
-# NoSource1-md5:	faac7beb46531ecceee8e4f0e32f049e
+# NoSource1-md5:	7f771a2576b4c6a355f496d5e0df8f83
 NoSource:	0
 NoSource:	1
 Source2:	chromium-browser.sh
@@ -139,17 +139,15 @@ fi
 %{_pixmapsdir}/chromium-browser.png
 %{_desktopdir}/*.desktop
 %dir %{_libdir}/%{name}
+%{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/chrome.pak
 %dir %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/locales/en-US.pak
 %dir %{_libdir}/%{name}/plugins
 %dir %{_libdir}/%{name}/resources
-%{_libdir}/%{name}/resources/bookmark_manager
 %{_libdir}/%{name}/resources/calendar_app
 %{_libdir}/%{name}/resources/docs_app
 %{_libdir}/%{name}/resources/gmail_app
-%{_libdir}/%{name}/resources/net_internals
-%{_libdir}/%{name}/resources/shared
 %{_libdir}/%{name}/themes
 %attr(755,root,root) %{_libdir}/%{name}/chromium-browser
 
