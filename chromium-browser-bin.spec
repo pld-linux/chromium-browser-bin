@@ -27,6 +27,7 @@ Requires:	nspr
 Requires:	nss
 Requires:	xdg-utils
 Provides:	wwwbrowser
+Obsoletes:	%{name}-bookmark_manager
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
