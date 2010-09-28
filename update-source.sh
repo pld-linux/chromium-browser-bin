@@ -66,7 +66,7 @@ if [ "$oldrev" != "$rev" ]; then
 	# revno => VERSION hint by Caleb Maclennan <caleb#alerque.com>
 	wget -q -O VERSION.sh http://src.chromium.org/viewvc/chrome/trunk/src/chrome/VERSION?revision=$rev
 	if grep -Ev '^(MAJOR|MINOR|BUILD|PATCH)=[0-9]+$' VERSION.sh >&2; then
-		echo >&2 "I refuse to execute grabbed file for security concerns"
+		echo >&2 "I refuse to execute garbled file for security concerns"
 		exit 1
 	fi
 	. ./VERSION.sh
