@@ -1,8 +1,20 @@
 #!/bin/sh
+# Usage:
+# ./update-source.sh [spec|rev]
+#     Download latest binary tarball based on latest release from
+#     buildbot, current version referenced in spec file, or custom
+#     version number.
 set -e
 dropin=
 
-if [ "$1" ]; then
+# Work in package dir
+dir=$(dirname "$0")
+cd "$dir"
+
+if [ "$1" == "spec" ]; then
+	rev=$(grep -e "^%define.*svnrev" chromium-browser-bin.spec | cut -f4)
+	echo "Using $rev from spec file"
+elif [ "$1" ]; then
 	rev=$1
 	echo "Using $rev..."
 else
