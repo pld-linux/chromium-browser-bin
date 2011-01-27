@@ -1,18 +1,18 @@
 # NOTES:
 # - to look for new tarball, use update-source.sh script
-%define		svnrev	70181
+%define		svnrev	72768
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	10.0.623.0
+Version:	10.0.651.0
 Release:	%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# NoSource0-md5:	c121bd0c98fdd8cc7671190b830338cd
+# NoSource0-md5:	0ab8cc89d5a418a9fed28a6eb8ca231a
 Source1:	chromium-browser64-r%{svnrev}.zip
-# NoSource1-md5:	90901ca090db93f5c398a40fe84dfdcd
+# NoSource1-md5:	2f3dc8a6ca5f3c809a72a2d2e60170d4
 NoSource:	0
 NoSource:	1
 Source2:	chromium-browser.sh
@@ -152,6 +152,9 @@ fi
 
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/chrome_sandbox
+
+# Native Client plugin, to use launch with --enable-nacl
+%attr(755,root,root) %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
