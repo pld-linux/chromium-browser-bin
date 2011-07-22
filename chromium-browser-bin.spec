@@ -1,18 +1,18 @@
 # NOTES:
 # - to look for new tarball, use update-source.sh script
-%define		svnrev	79369
+%define		svnrev	93513
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	12.0.714.0
+Version:	14.0.830.0
 Release:	%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# NoSource0-md5:	246cc36f4463d626594564d54d5f2d61
+# NoSource0-md5:	d41d8cd98f00b204e9800998ecf8427e
 Source1:	chromium-browser64-r%{svnrev}.zip
-# NoSource1-md5:	a4e1230d56a75770e1dd6569a0d0dac5
+# NoSource1-md5:	563eb10175b0707c6d136e953538a99a
 NoSource:	0
 NoSource:	1
 Source2:	chromium-browser.sh

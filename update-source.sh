@@ -4,6 +4,7 @@
 #     Download latest binary tarball based on latest release from
 #     buildbot, current version referenced in spec file, or custom
 #     version number.
+set -x
 set -e
 dropin=
 
@@ -19,8 +20,8 @@ elif [ "$1" ]; then
 	echo "Using $rev..."
 else
 	echo "Fetching latest revno... "
-	rev=$(wget -q -O - http://build.chromium.org/buildbot/continuous/linux/LATEST/REVISION)
-	rev64=$(wget -q -O - http://build.chromium.org/buildbot/continuous/linux64/LATEST/REVISION)
+	rev=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux/LAST_CHANGE)
+	rev64=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux_x64/LAST_CHANGE)
 	# be sure that we use same rev on both arch
 	if [ "$rev" != "$rev64" ]; then
 		echo "Current 32bit build ($rev) does not match 64bit build ($rev64)"
@@ -39,11 +40,12 @@ else
 fi
 
 if [ ! -f chromium-browser32-r$rev.zip ]; then
-	wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux/$rev/chrome-linux.zip -c -O chromium-browser32-r$rev.zip
+	wget http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux/$rev/chrome-linux.zip -c -O chromium-browser32-r$rev.zip
+	
 	upload_32="chromium-browser32-r$rev.zip"
 fi
 if [ ! -f chromium-browser64-r$rev.zip ]; then
-	wget http://build.chromium.org/buildbot/snapshots/chromium-rel-linux-64/$rev/chrome-linux.zip -c -O chromium-browser64-r$rev.zip
+	wget http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux_x64/$rev/chrome-linux.zip -c -O chromium-browser64-r$rev.zip
 	upload_64="chromium-browser64-r$rev.zip"
 fi
 
