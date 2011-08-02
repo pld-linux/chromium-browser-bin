@@ -1,18 +1,18 @@
 # NOTES:
 # - to look for new tarball, use update-source.sh script
-%define		svnrev	93513
+%define		svnrev	95033
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	14.0.830.0
+Version:	15.0.841.0
 Release:	%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# NoSource0-md5:	d41d8cd98f00b204e9800998ecf8427e
+# NoSource0-md5:	fdb3fa48ae36dba0bd10547a1fbe4165
 Source1:	chromium-browser64-r%{svnrev}.zip
-# NoSource1-md5:	563eb10175b0707c6d136e953538a99a
+# NoSource1-md5:	00956a3ba4d1733a1f62fc458247a880
 NoSource:	0
 NoSource:	1
 Source2:	chromium-browser.sh
@@ -155,6 +155,7 @@ fi
 
 # Native Client plugin, to use launch with --enable-nacl
 %attr(755,root,root) %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
+#%{_libdir}/%{name}/nacl_irt_x86_64.nexe
 
 # ffmpeg libs
 %attr(755,root,root) %{_libdir}/%{name}/libffmpegsumo.so
@@ -170,6 +171,7 @@ fi
 
 # bundle this copy until xdg-utils will have this itself
 %attr(755,root,root) %{_libdir}/%{name}/xdg-settings
+%attr(755,root,root) %{_libdir}/%{name}/xdg-mime
 
 %files inspector
 %defattr(644,root,root,755)

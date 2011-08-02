@@ -4,7 +4,6 @@
 #     Download latest binary tarball based on latest release from
 #     buildbot, current version referenced in spec file, or custom
 #     version number.
-set -x
 set -e
 dropin=
 
