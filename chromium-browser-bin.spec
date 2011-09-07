@@ -1,18 +1,18 @@
 # NOTES:
 # - to look for new tarball, use update-source.sh script
-%define		svnrev	95033
+%define		svnrev	99948
 %define		rel		1
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
-Version:	15.0.841.0
+Version:	15.0.875.0
 Release:	%{svnrev}.%{rel}
 License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# NoSource0-md5:	fdb3fa48ae36dba0bd10547a1fbe4165
+# NoSourceSource0-md5:	
 Source1:	chromium-browser64-r%{svnrev}.zip
-# NoSource1-md5:	00956a3ba4d1733a1f62fc458247a880
+# NoSourceSource1-md5:	
 NoSource:	0
 NoSource:	1
 Source2:	chromium-browser.sh
@@ -25,7 +25,7 @@ Requires:	browser-plugins >= 2.0
 Requires:	libpng12 >= 1:1.2.42-2
 Requires:	nspr
 Requires:	nss
-Requires:	xdg-utils
+Requires:	xdg-utils >= 1.0.2-4
 Provides:	wwwbrowser
 Conflicts:	chromium-browser
 Obsoletes:	%{name}-bookmark_manager
@@ -93,6 +93,10 @@ mv chrome-linux/chrome-wrapper .
 mv chrome-linux/{chrome,chromium-browser}
 chmod a+x chrome-linux/lib*.so*
 
+# xdg-utils >= 1.0.2-4 satisfies these
+rm chrome-linux/xdg-settings
+rm chrome-linux/xdg-mime
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1,%{_pixmapsdir},%{_desktopdir},%{_libdir}/%{name}/themes}
@@ -100,9 +104,9 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name}/plugins,%{_mandir}/man1
 install -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/chromium-browser
 %{__sed} -i -e 's,@libdir@,%{_libdir}/%{name},' $RPM_BUILD_ROOT%{_bindir}/chromium-browser
 cp -a chrome-linux/* $RPM_BUILD_ROOT%{_libdir}/%{name}
-cp -a chromium-browser.1 $RPM_BUILD_ROOT%{_mandir}/man1
-cp -a product_logo_48.png $RPM_BUILD_ROOT%{_pixmapsdir}/chromium-browser.png
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
+cp -p chromium-browser.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p product_logo_48.png $RPM_BUILD_ROOT%{_pixmapsdir}/chromium-browser.png
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_desktopdir}
 
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins
 
@@ -168,10 +172,6 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/libnssutil3.so.1d
 %attr(755,root,root) %{_libdir}/%{name}/libsmime3.so.1d
 %attr(755,root,root) %{_libdir}/%{name}/libssl3.so.1d
-
-# bundle this copy until xdg-utils will have this itself
-%attr(755,root,root) %{_libdir}/%{name}/xdg-settings
-%attr(755,root,root) %{_libdir}/%{name}/xdg-mime
 
 %files inspector
 %defattr(644,root,root,755)
