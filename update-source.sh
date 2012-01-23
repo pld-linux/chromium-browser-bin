@@ -6,13 +6,14 @@
 #     version number.
 set -e
 dropin=
+specfile=chromium-browser-bin.spec
 
 # Work in package dir
 dir=$(dirname "$0")
 cd "$dir"
 
 if [ "$1" == "spec" ]; then
-	rev=$(grep -e "^%define.*svnrev" chromium-browser-bin.spec | cut -f4)
+	rev=$(awk '/^%define.*svnrev/{print $NF}' $specfile)
 	echo "Using $rev from spec file"
 elif [ "$1" == "trunk" ]; then
 	echo "Fetching latest revno... "
@@ -35,14 +36,15 @@ elif [ "$1" ]; then
 	rev=$1
 	echo "Using $rev..."
 else
-	rev=$(wget -q -O - http://omahaproxy.appspot.com | grep '^linux,dev' | cut -d, -f7)
-	version=$(wget -q -O - http://omahaproxy.appspot.com | grep '^linux,dev' | cut -d, -f3)
+	contents=$(wget -q -O - "http://omahaproxy.appspot.com/?os=linux&channel=dev")
+	rev=$(echo "$contents" | awk -F, '/^linux/{print $7}')
+	version=$(echo "$contents" | awk -F, '/^linux/{print $3}')
 	echo "Using devel channel $rev..."
 fi
 
 if [ ! -f chromium-browser32-r$rev.zip ]; then
 	wget http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux/$rev/chrome-linux.zip -c -O chromium-browser32-r$rev.zip
-	
+
 	upload_32="chromium-browser32-r$rev.zip"
 fi
 if [ ! -f chromium-browser64-r$rev.zip ]; then
@@ -63,13 +65,12 @@ if [ "$dropin" ]; then
 	fi
 fi
 
-specfile=chromium-browser-bin.spec
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 if [ "$oldrev" != "$rev" ]; then
 	if [ -z "$version" ]; then
 		wget -q -O VERSION.sh http://src.chromium.org/viewvc/chrome/trunk/src/chrome/VERSION?revision=$rev
 		if grep -Ev '^(MAJOR|MINOR|BUILD|PATCH)=[0-9]+$' VERSION.sh >&2; then
-			echo >&2 "I refuse to execute garbled file for security concerns"
+			echo >&2 "I refuse to execute garbled file due security concerns"
 			exit 1
 		fi
 		. ./VERSION.sh
