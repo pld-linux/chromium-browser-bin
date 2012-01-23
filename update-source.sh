@@ -14,13 +14,10 @@ cd "$dir"
 if [ "$1" == "spec" ]; then
 	rev=$(grep -e "^%define.*svnrev" chromium-browser-bin.spec | cut -f4)
 	echo "Using $rev from spec file"
-elif [ "$1" ]; then
-	rev=$1
-	echo "Using $rev..."
-else
+elif [ "$1" == "trunk" ]; then
 	echo "Fetching latest revno... "
-	rev=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux/LAST_CHANGE)
-	rev64=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux_x64/LAST_CHANGE)
+	#rev=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux/LAST_CHANGE)
+	#rev64=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux_x64/LAST_CHANGE)
 	# be sure that we use same rev on both arch
 	if [ "$rev" != "$rev64" ]; then
 		echo "Current 32bit build ($rev) does not match 64bit build ($rev64)"
@@ -33,9 +30,14 @@ else
 			rev=$rev64
 		fi
 	fi
-	echo "$rev"
-	# TODO: use release branches instead of trunk. Current release can be looked up like this:
-	#linuxdev=$(wget -q -O - http://omahaproxy.appspot.com | grep '^linux,dev' | cut -d, -f3)
+	echo "Using trunk $rev"
+elif [ "$1" ]; then
+	rev=$1
+	echo "Using $rev..."
+else
+	rev=$(wget -q -O - http://omahaproxy.appspot.com | grep '^linux,dev' | cut -d, -f7)
+	version=$(wget -q -O - http://omahaproxy.appspot.com | grep '^linux,dev' | cut -d, -f3)
+	echo "Using devel channel $rev..."
 fi
 
 if [ ! -f chromium-browser32-r$rev.zip ]; then
@@ -64,14 +66,15 @@ fi
 specfile=chromium-browser-bin.spec
 oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 if [ "$oldrev" != "$rev" ]; then
-	# revno => VERSION hint by Caleb Maclennan <caleb#alerque.com>
-	wget -q -O VERSION.sh http://src.chromium.org/viewvc/chrome/trunk/src/chrome/VERSION?revision=$rev
-	if grep -Ev '^(MAJOR|MINOR|BUILD|PATCH)=[0-9]+$' VERSION.sh >&2; then
-		echo >&2 "I refuse to execute garbled file for security concerns"
-		exit 1
+	if [ -z "$version" ]; then
+		wget -q -O VERSION.sh http://src.chromium.org/viewvc/chrome/trunk/src/chrome/VERSION?revision=$rev
+		if grep -Ev '^(MAJOR|MINOR|BUILD|PATCH)=[0-9]+$' VERSION.sh >&2; then
+			echo >&2 "I refuse to execute garbled file for security concerns"
+			exit 1
+		fi
+		. ./VERSION.sh
+		version=$MAJOR.$MINOR.$BUILD.$PATCH
 	fi
-	. ./VERSION.sh
-	version=$MAJOR.$MINOR.$BUILD.$PATCH
 
 	echo "Updating $specfile for $version r$rev"
 	sed -i -e "
