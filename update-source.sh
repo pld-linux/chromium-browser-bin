@@ -17,8 +17,8 @@ if [ "$1" == "spec" ]; then
 	echo "Using $rev from spec file"
 elif [ "$1" == "trunk" ]; then
 	echo "Fetching latest revno... "
-	#rev=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux/LAST_CHANGE)
-	#rev64=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux_x64/LAST_CHANGE)
+	rev=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux/LAST_CHANGE)
+	rev64=$(wget -q -O - http://commondatastorage.googleapis.com/chromium-browser-continuous/Linux_x64/LAST_CHANGE)
 	# be sure that we use same rev on both arch
 	if [ "$rev" != "$rev64" ]; then
 		echo "Current 32bit build ($rev) does not match 64bit build ($rev64)"
@@ -69,7 +69,8 @@ oldrev=$(awk '/^%define[ 	]+svnrev[ 	]+/{print $NF}' $specfile)
 if [ "$oldrev" != "$rev" ]; then
 	if [ -z "$version" ]; then
 		wget -q -O VERSION.sh http://src.chromium.org/viewvc/chrome/trunk/src/chrome/VERSION?revision=$rev
-		if grep -Ev '^(MAJOR|MINOR|BUILD|PATCH)=[0-9]+$' VERSION.sh >&2; then
+		echo REV=$rev >> VERSION.sh
+		if grep -Ev '^(MAJOR|MINOR|BUILD|PATCH|REV)=[0-9]+$' VERSION.sh >&2; then
 			echo >&2 "I refuse to execute garbled file due security concerns"
 			exit 1
 		fi
