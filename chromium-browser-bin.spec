@@ -1,7 +1,7 @@
 # NOTES:
 # - to look for new tarball, use update-source.sh script
 %define		svnrev	117846
-%define		rel		1
+%define		rel		2
 Summary:	A WebKit powered web browser
 Name:		chromium-browser-bin
 Version:	18.0.1010.0

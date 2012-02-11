@@ -1,9 +1,9 @@
 #!/bin/sh
 # Usage:
-# ./update-source.sh [spec|rev]
-#     Download latest binary tarball based on latest release from
-#     buildbot, current version referenced in spec file, or custom
-#     version number.
+# ./update-source.sh [spec|trunk|rev]
+#     Download latest binary tarball based on latest release documented
+#     in omaha proxy (or alternitavly the current version referenced in the
+#     spec file, or latest successfully trunk build, or custom version number.
 set -e
 dropin=
 specfile=chromium-browser-bin.spec
