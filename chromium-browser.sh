@@ -26,4 +26,10 @@ fi
 # Set CHROME_VERSION_EXTRA visible in the About dialog and in about:version
 export CHROME_VERSION_EXTRA="PLD Linux"
 
+# Allow $CHROME_DESKTOP to override the built-in value, so that development
+# versions can set themselves as the default without interfering with
+# non-official, packaged versions using the built-in value.
+# https://src.chromium.org/svn/trunk/src/chrome/browser/shell_integration_linux.cc
+export CHROME_DESKTOP="chromium-browser-bin.desktop"
+
 exec @libdir@/chromium-browser "$@"
