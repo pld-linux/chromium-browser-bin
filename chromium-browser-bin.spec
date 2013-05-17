@@ -10,9 +10,9 @@ License:	BSD, LGPL v2+ (ffmpeg)
 Group:		X11/Applications/Networking
 # sh get_sources.sh
 Source0:	chromium-browser32-r%{svnrev}.zip
-# NoSourceSource0-md5:	
+# NoSource0-md5:	
 Source1:	chromium-browser64-r%{svnrev}.zip
-# NoSourceSource1-md5:	
+# NoSource1-md5:	
 NoSource:	0
 NoSource:	1
 Source2:	chromium-browser.sh
